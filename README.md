@@ -1,7 +1,5 @@
 ````markdown
 # SolveX
-
-![SolveX Logo](https://via.placeholder.com/150)  
 *Open Problems. Collective Solutions. Better Thinking.*
 
 ---
