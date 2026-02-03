@@ -10,12 +10,8 @@
 - [Features](#features)  
 - [Architecture](#architecture)  
 - [Technology Stack](#technology-stack)  
-- [Getting Started](#getting-started)  
-- [API Endpoints](#api-endpoints)  
-- [Authentication](#authentication)  
-- [Database Schema](#database-schema)  
-- [Future Enhancements](#future-enhancements)  
-- [License](#license)  
+- [Getting Started](#getting-started)
+- [Authentication](#authentication)   
 
 ---
 
@@ -118,47 +114,6 @@ mvn spring-boot:run
 
 Server runs on `http://localhost:8080`.
 
----
-
-## API Endpoints
-
-### Auth
-
-| Endpoint             | Method | Description                         |
-| -------------------- | ------ | ----------------------------------- |
-| `/api/auth/register` | POST   | Register a new user                 |
-| `/api/auth/login`    | POST   | Authenticate a user (session-based) |
-
-**Example Register Request:**
-
-```json
-{
-  "username": "divin",
-  "email": "divin@mail.com",
-  "password": "1234"
-}
-```
-
----
-
-### Problems
-
-| Endpoint        | Method | Description          |
-| --------------- | ------ | -------------------- |
-| `/api/problems` | POST   | Create a new problem |
-| `/api/problems` | GET    | List all problems    |
-
-**Example Problem Request:**
-
-```json
-{
-  "title": "Access to clean water",
-  "description": "How can communities improve access to clean water?"
-}
-```
-
----
-
 ## Authentication
 
 * Uses **HTTP session** (`JSESSIONID`)
@@ -166,42 +121,6 @@ Server runs on `http://localhost:8080`.
 * Session is created on login and reused for subsequent requests
 * Protected endpoints require an active session
 
----
-
-## Database Schema
-
-### User
-
-| Column    | Type      | Description            |
-| --------- | --------- | ---------------------- |
-| id        | BIGINT    | Primary key            |
-| username  | VARCHAR   | Unique username        |
-| email     | VARCHAR   | Unique email           |
-| password  | VARCHAR   | BCrypt hashed password |
-| role      | ENUM      | USER / DEVELOPER       |
-| createdAt | TIMESTAMP | Account creation time  |
-
-### Problem
-
-| Column      | Type      | Description                 |
-| ----------- | --------- | --------------------------- |
-| id          | BIGINT    | Primary key                 |
-| title       | VARCHAR   | Problem title               |
-| description | TEXT      | Problem description         |
-| status      | ENUM      | OPEN / IN_PROGRESS / SOLVED |
-| createdAt   | TIMESTAMP | Creation timestamp          |
-
----
-
-## Future Enhancements
-
-* AI-powered solution analysis and feedback
-* Solution versioning
-* Tag-based problem categorization
-* Reputation system (non-gamified)
-* Commenting, likes, and collaborative improvements
-
----
 
 ## License
 
