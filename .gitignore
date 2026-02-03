@@ -1,0 +1,31 @@
+# ===== Maven =====
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# ===== IntelliJ IDEA =====
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# ===== OS files =====
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===== Logs =====
+*.log
+logs/
+
+# ===== Spring Boot config / secrets =====
+application.yml
+application-local.yml
+application-prod.yml
+application-*.properties
+.env
+
+# ===== Runtime / temp files =====
+*.pid
+*.tmp
+*.swp
+*.swo
