@@ -85,7 +85,7 @@ SolveX follows a **3-layer architecture**:
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/solvex.git
+git clone https://github.com/divin-d1/solvex-backend.git
 cd solvex
 ````
 
@@ -101,8 +101,8 @@ CREATE DATABASE solvex;
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/solvex
-    username: "postgres"
-    password: "postgres"
+    username: <Your username>
+    password: <Your Password>
 
   jpa:
     hibernate:
@@ -207,8 +207,4 @@ Server runs on `http://localhost:8080`.
 
 MIT License © 2026 SolveX Team
 
----
-
 > SolveX demonstrates how a **simple, open platform** can support meaningful collaboration and structured problem-solving while remaining extensible for real-world use.
-
-```
