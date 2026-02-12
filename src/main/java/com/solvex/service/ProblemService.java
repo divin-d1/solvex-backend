@@ -1,6 +1,5 @@
 package com.solvex.service;
 import com.solvex.entity.Problem;
-import com.solvex.entity.Project;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import com.solvex.repository.ProblemRepository;
