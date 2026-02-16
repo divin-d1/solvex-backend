@@ -1,4 +1,9 @@
 package com.solvex.repository;
+import com.solvex.entity.Comment;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import java.util.UUID;
 
-public class CommentRepository {
+@Repository
+public interface CommentRepository extends JpaRepository<Comment,UUID> {
 }
