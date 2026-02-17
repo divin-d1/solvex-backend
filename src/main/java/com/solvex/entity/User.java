@@ -53,6 +53,8 @@ public class User {
     @OneToMany(mappedBy = "liker", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Likes> likes = new ArrayList<>();
 
+
+
     @PrePersist
     public void prePersist() {
         createdAt = LocalDate.now();
