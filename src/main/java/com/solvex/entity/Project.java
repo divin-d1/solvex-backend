@@ -1,5 +1,6 @@
 package com.solvex.entity;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -29,8 +30,8 @@ public class Project {
     @Column(nullable = false, name = "project_description")
     private String projectDescription;
 
-    @Column(name = "useful_links")
-    private String usefulLinks;
+    @Column(name = "useful_links", columnDefinition = "jsonb")
+    private JsonNode usefulLinks;
 
     @Enumerated(EnumType.STRING)
     private Visibility visibility = Visibility.PUBLIC;
