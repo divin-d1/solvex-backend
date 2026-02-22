@@ -1,45 +1,93 @@
 package com.solvex.controller;
 import com.solvex.dto.LoginRequest;
 import com.solvex.dto.RegisterRequest;
+import com.solvex.dto.UserResponse;
 import com.solvex.entity.User;
+import com.solvex.service.RecaptchaService;
 import com.solvex.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import com.solvex.entity.User.Role;
+import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/auth")
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 
 public class AuthController {
-    @Autowired
     private final UserService userService;
-
-    public AuthController(UserService userService) {
-        this.userService = userService;
-    }
-
+    private final  RecaptchaService recaptchaService;
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request){
+
+        Role roleToAssign = request.getRole();
+
+        if(roleToAssign != Role.USER && roleToAssign != Role.INNOVATOR){
+            return ResponseEntity
+                    .status(401)
+                    .body(Map.of(
+                            "error","Invalid role"
+                    ));
+        }
+
         User user = userService.register(
                 request.getFullName(),
                 request.getEmail(),
                 request.getPassword(),
-                request.getRole()
+                roleToAssign
         );
-        return ResponseEntity.ok(user);
+        return ResponseEntity
+                .status(HttpStatusCode.valueOf(201))
+                .body(Map.of(
+                        "success","Registration successfully"
+                ));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request,HttpSession session){
-        User user = userService.login(
-                request.getEmail(),
-                request.getPassword()
-        );
+    public ResponseEntity<?> login(@RequestBody LoginRequest request, HttpSession httpSession){
+        if(!recaptchaService.validate(request.getRecaptchaToken())){
+            return ResponseEntity
+                    .badRequest()
+                    .body(Map.of("error", "Invalid captcha"));
+        }
 
-        session.setAttribute("SOLVEX_SESSION", user.getId());
-        return ResponseEntity.ok("Login Successfully");
+        User user = userService.login(request.getEmail(), request.getPassword());
+        httpSession.setAttribute("SOLVEX_SESSION",user.getId());
+        return ResponseEntity
+                .status(HttpStatusCode.valueOf(200))
+                .body(Map.of(
+                        "success", "Login successfully"
+                ));
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> getCurrentUser(HttpSession session){
+        UUID userId = (UUID) session.getAttribute("SOLVEX_SESSION");
+
+        if (userId == null){
+            return ResponseEntity
+                    .status(HttpStatusCode.valueOf(403))
+                    .body(Map.of(
+                            "error","Please login"
+                    ));
+        }
+        User user = userService.getUser(userId);
+
+        UserResponse userResponse = new UserResponse(
+                user.getId(),
+                user.getFullName(),
+                user.getEmail(),
+                user.getRole()
+        );
+        return ResponseEntity
+                .status(HttpStatusCode.valueOf(200))
+                .body(Map.of(
+                        "success", "User returned successfully",
+                        "user",userResponse
+                ));
     }
 }
