@@ -33,4 +33,13 @@ public class GlobalExceptionHandler{
                         "error",exception.getMessage()
                 ));
     }
+
+    @ExceptionHandler (RuntimeException.class)
+    public ResponseEntity<?> handleUnexpectedError(RuntimeException exception){
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Map.of(
+                        "error", "Internal server error"
+                ));
+    }
 }
