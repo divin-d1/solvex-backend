@@ -9,17 +9,14 @@ import lombok.RequiredArgsConstructor;
 import com.solvex.entity.User.Role;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.UUID;
+
 @Service
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     public User register(String fullName, String email, String password, Role role){
         if(userRepository.existsByEmail(email)){
@@ -34,15 +31,14 @@ public class UserService {
     }
 
     public User login(String email, String password){
-        if(!userRepository.existsByEmail(email)){
-            throw new NotFoundException("User not found");
+        User user = userRepository.findByEmail(email).orElseThrow(()-> new AuthException("Invalid email or password"));
+        if(!passwordEncoder.matches(password, user.getPassword())){
+            throw new AuthException("Invalid email or password");
         }
-
-        User user = userRepository.findByEmail(email);
-        if(!passwordEncoder.matches(password,user.getPassword())){
-            throw  new AuthException("Invalid credentials");
-        }
-
         return user;
+    }
+
+    public User getUser(UUID userId){
+        return userRepository.findById(userId).orElseThrow(()-> new NotFoundException("User not found"));
     }
 }
