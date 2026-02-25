@@ -17,7 +17,7 @@
     <version>1.0-SNAPSHOT</version>
     <name>SolveX</name>
     <description>SolveX Project</description>
-    <packaging>jar</packaging> <!-- Spring Boot uses JAR, not WAR -->
+    <packaging>jar</packaging>
 
     <properties>
         <java.version>17</java.version>
@@ -30,6 +30,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
+        <!-- Dotenv configuration -->
+        <dependency>
+            <groupId>io.github.cdimascio</groupId>
+            <artifactId>dotenv-java</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
 
         <!-- JPA + Hibernate -->
         <dependency>
@@ -63,11 +71,21 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
+        <!-- Captcha dependendency -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
         <!-- Testing -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
     </dependencies>
